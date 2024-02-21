@@ -1,6 +1,12 @@
 "use client";
 
-import { ChevronsLeft, KanbanSquare, MenuIcon, User } from "lucide-react";
+import {
+  ChevronsLeft,
+  KanbanSquare,
+  MenuIcon,
+  Settings,
+  User,
+} from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { ElementRef, useCallback, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
@@ -149,13 +155,12 @@ export const Navigation = () => {
             }
           />
           <Item
-            label="Members"
-            icon={User}
+            label="Settings"
+            icon={Settings}
             onClick={() =>
-              router.push(`/organizations/${organization?.id}/members`)
+              router.push(`/organizations/${organization?.id}/settings`)
             }
           />
-          <Item label="Settings" icon={KanbanSquare} onClick={() => {}} />
         </div>
         <div
           onMouseDown={handleMouseDown}
