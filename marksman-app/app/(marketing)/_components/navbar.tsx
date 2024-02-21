@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useConvexAuth } from "convex/react";
-import { UserButton } from "@clerk/clerk-react";
+import { SignInButton, UserButton } from "@clerk/clerk-react";
 
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
@@ -28,15 +28,17 @@ export const Navbar = () => {
         {isLoading && <Spinner />}
 
         {!isAuthenticated && !isLoading && (
-          <Button variant="ghost" size="sm">
-            Login
-          </Button>
+          <SignInButton mode="modal">
+            <Button variant="ghost" size="sm">
+              Login
+            </Button>
+          </SignInButton>
         )}
 
         {isAuthenticated && !isLoading && (
           <>
             <Button variant="ghost" size="sm">
-              <Link href="/organizations">Enter Marksman</Link>
+              <Link href="/select-org">Enter Marksman</Link>
             </Button>
             <UserButton afterSignOutUrl="/" />
           </>

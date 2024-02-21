@@ -26,8 +26,8 @@ export const Heading = () => {
         </div>
       )}
       {isAuthenticated && !isLoading && (
-        <Button disabled={false} asChild>
-          <Link href="/organizations">
+        <Button asChild>
+          <Link href="/select-org">
             <DoorOpen className="mr-2 h-4 w-4" />
             Enter Marksman
           </Link>
@@ -35,7 +35,7 @@ export const Heading = () => {
       )}
       {!isAuthenticated && !isLoading && (
         <SignInButton>
-          <Button onClick={() => {}} disabled={false}>
+          <Button>
             <ArrowRight className="h-4 w-4 mr-2" />
             Mark your debut
           </Button>
