@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useConvexAuth } from "convex/react";
-import { SignInButton } from "@clerk/clerk-react";
+import { SignInButton } from "@clerk/nextjs";
 import { ArrowRight, DoorOpen } from "lucide-react";
 
 import { Spinner } from "@/components/spinner";
