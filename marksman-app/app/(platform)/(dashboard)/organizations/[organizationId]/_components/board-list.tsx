@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { User2 } from "lucide-react";
+import { HelpCircle, User2 } from "lucide-react";
 import { useQuery } from "convex/react";
 
 import { api } from "@/convex/_generated/api";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FormPopover } from "@/components/form/form-popover";
+import { Hint } from "@/components/hint";
 
 interface BoardListProps {
   orgId: string;
@@ -35,6 +37,23 @@ export const BoardList = ({ orgId }: BoardListProps) => {
             <p className="relative font-semibold text-white">{board.title}</p>
           </Link>
         ))}
+        <FormPopover side="right" sideOffset={10}>
+          <div
+            role="button"
+            className="aspect-video relative h-full w-full bg-muted rounded-sm flex flex-col gap-y-1 items-center justify-center hover:opacity-75 transition">
+            <p className="text-sm">Create new board</p>
+            <span className="text-xs">
+              {true ? "Unlimited" : `${5 - 0} remaining`}
+            </span>
+            <Hint
+              sideOffset={40}
+              description={`
+              Marksman allows you to have up to 5 boards. For unlimited amount of boards, please consider our subscription.
+          `}>
+              <HelpCircle className="absolute bottom-2 right-2 h-[14px] w-[14px]" />
+            </Hint>
+          </div>
+        </FormPopover>
       </div>
     </div>
   );
