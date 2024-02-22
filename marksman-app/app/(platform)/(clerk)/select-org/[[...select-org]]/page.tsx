@@ -1,13 +1,11 @@
-"use client";
-
-import { OrganizationList } from "@clerk/clerk-react";
+import { OrganizationList } from "@clerk/nextjs";
 
 const CreateOrganizationPage = () => {
   return (
     <OrganizationList
       hidePersonal
-      afterSelectOrganizationUrl="/organization/:id"
-      afterCreateOrganizationUrl="/organization/:id"
+      afterSelectOrganizationUrl="/organizations/:id"
+      afterCreateOrganizationUrl="/organizations/:id"
     />
   );
 };
