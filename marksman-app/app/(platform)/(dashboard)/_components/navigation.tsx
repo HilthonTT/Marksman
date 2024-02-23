@@ -1,23 +1,25 @@
 "use client";
 
+import { UserButton, useUser, useOrganization } from "@clerk/nextjs";
 import {
+  Box,
   ChevronsLeft,
   KanbanSquare,
   MenuIcon,
   Settings,
-  User,
 } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { ElementRef, useCallback, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
-import { useOrganization } from "@clerk/clerk-react";
 
 import { cn } from "@/lib/utils";
 
 import { OrgItem } from "./org-item";
 import { Item } from "./item";
+import { BoardNavbar } from "./board-navbar";
 
 export const Navigation = () => {
+  const { user } = useUser();
   const { organization } = useOrganization();
 
   const router = useRouter();
@@ -80,6 +82,7 @@ export const Navigation = () => {
   const resetWidth = useCallback(() => {
     if (sidebarRef.current && navbarRef.current) {
       setIsCollapsed(false);
+
       setIsResetting(true);
 
       sidebarRef.current.style.width = isMobile ? "100%" : "240px";
@@ -150,8 +153,13 @@ export const Navigation = () => {
           <Item
             label="Boards"
             icon={KanbanSquare}
+            onClick={() => router.push(`/organizations/${organization?.id}`)}
+          />
+          <Item
+            label="Inventory"
+            icon={Box}
             onClick={() =>
-              router.push(`/organizations/${organization?.id}/boards`)
+              router.push(`/organizations/${organization?.id}/inventory`)
             }
           />
           <Item
@@ -167,6 +175,25 @@ export const Navigation = () => {
           onClick={resetWidth}
           className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0"
         />
+        <div className="mt-auto flex items-center p-2 z-[999999]">
+          <UserButton
+            afterSignOutUrl="/"
+            appearance={{
+              elements: {
+                userButtonPopoverCard: {
+                  zIndex: 999999,
+                },
+                userButtonAvatarBox: {
+                  width: 40,
+                  height: 40,
+                },
+              },
+            }}
+          />
+          <p className="font-medium capitalize pl-2 text-sm">
+            {user?.username}
+          </p>
+        </div>
       </aside>
 
       <div
@@ -176,8 +203,8 @@ export const Navigation = () => {
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "left-0 w-full"
         )}>
-        {!!params.listId ? (
-          <div>Nav</div>
+        {!!params.boardId ? (
+          <BoardNavbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
         ) : (
           <nav className="bg-transparent px-3 py-2 w-full">
             {isCollapsed && (
