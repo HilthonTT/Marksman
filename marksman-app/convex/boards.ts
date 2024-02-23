@@ -3,6 +3,8 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { Doc, Id } from "./_generated/dataModel";
 
+import { CreateBoard } from "../schemas/board-schemas";
+
 export const getAll = query({
   args: {
     orgId: v.string(),
@@ -35,6 +37,15 @@ export const create = mutation({
 
     if (!identity) {
       throw new Error("Unauthorized");
+    }
+
+    const result = await CreateBoard.safeParseAsync({
+      title: args.title,
+      image: args.image,
+    });
+
+    if (!result.success) {
+      throw new Error("Invalid input data");
     }
 
     const [imageId, imageThumbUrl, imageFullUrl, imageLinkHTML, imageUsername] =

@@ -27,6 +27,7 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { CreateBoard } from "@/schemas/board-schemas";
 
 import { FormPicker } from "./form-picker";
 
@@ -36,28 +37,6 @@ interface FormPopoverProps {
   align?: "start" | "center" | "end";
   sideOffset?: number;
 }
-
-const formSchema = z.object({
-  image: z
-    .string({
-      required_error: "Image is required",
-      invalid_type_error: "Image is required",
-    })
-    .min(1, {
-      message: "Please select a valid image",
-    }),
-  title: z
-    .string({
-      required_error: "Title is required",
-      invalid_type_error: "Title is required",
-    })
-    .min(3, {
-      message: "Title is too short",
-    })
-    .max(50, {
-      message: "Title is too long",
-    }),
-});
 
 export const FormPopover = ({
   children,
@@ -74,15 +53,15 @@ export const FormPopover = ({
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof CreateBoard>>({
+    resolver: zodResolver(CreateBoard),
     defaultValues: {
       title: "",
       image: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: z.infer<typeof CreateBoard>) => {
     if (!organization) {
       return router.push("/select-org");
     }
