@@ -2,15 +2,21 @@
 
 import { Draggable } from "@hello-pangea/dnd";
 
-import { Card } from "@/types";
+import { useCardModal } from "@/hooks/use-card-modal";
+import { Card, ListWithCards } from "@/types";
 
 interface CardItemProps {
   index: number;
   data: Card;
+  list: ListWithCards;
 }
 
-export const CardItem = ({ index, data }: CardItemProps) => {
-  const onClick = () => {};
+export const CardItem = ({ index, data, list }: CardItemProps) => {
+  const cardModal = useCardModal();
+
+  const onClick = () => {
+    cardModal.onOpen(data, list);
+  };
 
   return (
     <Draggable draggableId={data._id} index={index}>
