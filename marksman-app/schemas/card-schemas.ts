@@ -31,7 +31,7 @@ export const UpdateCard = z.object({
 export const UpdateCardOrder = z.object({
   items: z.array(
     z.object({
-      id: z.string(),
+      _id: z.string(),
       title: z.string(),
       order: z.number(),
       list: z.string(),

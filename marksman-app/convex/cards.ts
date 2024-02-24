@@ -75,16 +75,12 @@ export const updateOrder = mutation({
       throw new Error("Not found");
     }
 
-    const transaction = args.items.map((card) =>
-      ctx.db.patch(card._id, {
+    for (const card of args.items) {
+      await ctx.db.patch(card._id, {
         order: card.order,
         list: card.list,
-      })
-    );
-
-    const cards = await Promise.all(transaction);
-
-    return cards;
+      });
+    }
   },
 });
 

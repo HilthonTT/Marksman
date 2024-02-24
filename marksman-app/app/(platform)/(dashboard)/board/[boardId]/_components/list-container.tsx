@@ -3,15 +3,15 @@
 import { useMutation, useQuery } from "convex/react";
 import { DragDropContext, DropResult, Droppable } from "@hello-pangea/dnd";
 import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ListWithCards } from "@/types";
 
 import { ListItem } from "./list-item";
 import { ListForm } from "./list-form";
-import { useEffect, useState } from "react";
-import { ListWithCards } from "@/types";
 
 interface ListContainerProps {
   boardId: Id<"boards">;
@@ -120,11 +120,14 @@ export const ListContainer = ({ boardId }: ListContainerProps) => {
           card.order = idx;
         });
 
-        console.log(reorderedCards);
+        const mappedCards = reorderedCards.map((card) => {
+          const { _creationTime, ...rest } = card;
+          return rest;
+        });
 
         sourceList.cards = reorderedCards;
 
-        const promise = updateCardOrder({ items: reorderedCards, boardId });
+        const promise = updateCardOrder({ items: mappedCards, boardId });
         setOrderedData(newOrderedData);
 
         toast.promise(promise, {
@@ -151,7 +154,12 @@ export const ListContainer = ({ boardId }: ListContainerProps) => {
           card.order = idx;
         });
 
-        const promise = updateCardOrder({ items: destList.cards, boardId });
+        const mappedCards = destList.cards.map((card) => {
+          const { _creationTime, ...rest } = card;
+          return rest;
+        });
+
+        const promise = updateCardOrder({ items: mappedCards, boardId });
         setOrderedData(newOrderedData);
 
         toast.promise(promise, {
