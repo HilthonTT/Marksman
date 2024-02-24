@@ -15,5 +15,11 @@ export default defineSchema({
     order: v.number(),
 
     board: v.id("boards"),
-  }),
+  }).index("by_board", ["board"]),
+  cards: defineTable({
+    title: v.string(),
+    order: v.number(),
+    description: v.optional(v.string()),
+    list: v.id("lists"),
+  }).index("by_list", ["list"]),
 });

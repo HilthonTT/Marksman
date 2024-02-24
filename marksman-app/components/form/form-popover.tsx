@@ -74,6 +74,7 @@ export const FormPopover = ({
       orgId: organization?.id!,
     }).then((boardId: string) => {
       setIsSubmitting(false);
+      form.reset();
       closeRef?.current?.click();
       router.push(`/board/${boardId}`);
     });
