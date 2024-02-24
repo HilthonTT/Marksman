@@ -23,6 +23,7 @@ export type Card = {
   order: number;
   description?: string;
   list: Id<"lists">;
+  _creationTime: number;
 };
 
 export type ListWithCards = List & {

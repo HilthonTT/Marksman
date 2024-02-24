@@ -19,6 +19,7 @@ export const getAll = query({
     const boards = await ctx.db
       .query("boards")
       .withIndex("by_org", (q) => q.eq("orgId", args.orgId))
+
       .order("desc")
       .collect();
 

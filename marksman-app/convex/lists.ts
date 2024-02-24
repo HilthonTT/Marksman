@@ -35,6 +35,13 @@ export const getByBoardId = query({
       })
     );
 
+    listsWithCards.sort((a, b) => a.order - b.order);
+
+    // Sort cards inside each list by their order field
+    listsWithCards.forEach((list) => {
+      list.cards.sort((a, b) => a.order - b.order);
+    });
+
     return listsWithCards;
   },
 });
@@ -153,14 +160,10 @@ export const updateOrder = mutation({
       throw new Error("Not found");
     }
 
-    const transaction = args.items.map((list) =>
-      ctx.db.patch(list._id, {
+    for (const list of args.items) {
+      await ctx.db.patch(list._id, {
         order: list.order,
-      })
-    );
-
-    const lists = await Promise.all(transaction);
-
-    return lists;
+      });
+    }
   },
 });

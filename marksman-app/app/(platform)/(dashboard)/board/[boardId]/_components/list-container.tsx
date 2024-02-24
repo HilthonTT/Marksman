@@ -10,6 +10,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { ListItem } from "./list-item";
 import { ListForm } from "./list-form";
+import { useEffect, useState } from "react";
+import { ListWithCards } from "@/types";
 
 interface ListContainerProps {
   boardId: Id<"boards">;
@@ -32,7 +34,17 @@ export const ListContainer = ({ boardId }: ListContainerProps) => {
   const updateListOrder = useMutation(api.lists.updateOrder);
   const updateCardOrder = useMutation(api.cards.updateOrder);
 
-  if (lists === undefined) {
+  const [orderedData, setOrderedData] = useState<ListWithCards[] | null>(null);
+
+  useEffect(() => {
+    if (!lists) {
+      return;
+    }
+
+    setOrderedData(lists);
+  }, [lists]);
+
+  if (!orderedData) {
     return <ListContainer.Skeleton />;
   }
 
@@ -53,14 +65,19 @@ export const ListContainer = ({ boardId }: ListContainerProps) => {
 
     // User moves a list
     if (type === "list") {
-      const items = reorder(lists, source.index, destination.index).map(
+      const items = reorder(orderedData, source.index, destination.index).map(
         (item, index) => ({
           ...item,
           order: index,
         })
       );
 
-      const promise = updateListOrder({ items, boardId });
+      const mappedItems = items.map((item) => {
+        return { title: item.title, order: item.order, _id: item._id };
+      });
+
+      const promise = updateListOrder({ items: mappedItems, boardId });
+      setOrderedData(items);
 
       toast.promise(promise, {
         loading: "Reordering list...",
@@ -70,7 +87,7 @@ export const ListContainer = ({ boardId }: ListContainerProps) => {
     }
 
     if (type === "card") {
-      let newOrderedData = [...lists];
+      let newOrderedData = [...orderedData];
 
       const sourceList = newOrderedData.find(
         (list) => list._id === source.droppableId
@@ -103,9 +120,12 @@ export const ListContainer = ({ boardId }: ListContainerProps) => {
           card.order = idx;
         });
 
+        console.log(reorderedCards);
+
         sourceList.cards = reorderedCards;
 
         const promise = updateCardOrder({ items: reorderedCards, boardId });
+        setOrderedData(newOrderedData);
 
         toast.promise(promise, {
           loading: "Reordering cards...",
@@ -132,6 +152,7 @@ export const ListContainer = ({ boardId }: ListContainerProps) => {
         });
 
         const promise = updateCardOrder({ items: destList.cards, boardId });
+        setOrderedData(newOrderedData);
 
         toast.promise(promise, {
           loading: "Reordering cards...",
@@ -150,7 +171,7 @@ export const ListContainer = ({ boardId }: ListContainerProps) => {
             {...provided.droppableProps}
             ref={provided.innerRef}
             className="flex gap-x-3 h-full">
-            {lists.map((list, index) => (
+            {orderedData.map((list, index) => (
               <ListItem key={list._id} data={list} index={index} />
             ))}
             {provided.placeholder}
