@@ -98,7 +98,7 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
                       {...field}
                       ref={ref}
                       placeholder="Enter a title for this card..."
-                      className="font-medium border-transparent bg-transparent hover:border-input focus:border-input transition text-black"
+                      className="font-medium border-white bg-transparent focus-visible:ring-transparent hover:border-input focus:border-input transition text-black"
                     />
                   </FormControl>
                   <FormMessage />

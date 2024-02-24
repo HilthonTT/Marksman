@@ -167,3 +167,95 @@ export const updateOrder = mutation({
     }
   },
 });
+
+export const remove = mutation({
+  args: {
+    orgId: v.string(),
+    id: v.id("lists"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    const list = await ctx.db.get(args.id);
+    if (!list) {
+      throw new Error("Not found");
+    }
+
+    const board = await ctx.db.get(list.board);
+    if (!board) {
+      throw new Error("Not found");
+    }
+
+    if (board.orgId !== args.orgId) {
+      throw new Error("Unauthorized");
+    }
+
+    const deletedBoard = await ctx.db.delete(args.id);
+
+    return deletedBoard;
+  },
+});
+
+export const copy = mutation({
+  args: {
+    orgId: v.string(),
+    id: v.id("lists"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    if (!identity) {
+      throw new Error("Unauthorized");
+    }
+
+    const listToCopy = await ctx.db.get(args.id);
+    if (!listToCopy) {
+      throw new Error("Not found");
+    }
+
+    const board = await ctx.db.get(listToCopy.board);
+    if (!board) {
+      throw new Error("Not found");
+    }
+
+    if (board.orgId !== args.orgId) {
+      throw new Error("Unauthorized");
+    }
+
+    const lastList = await ctx.db
+      .query("lists")
+      .withIndex("by_board", (q) => q.eq("board", listToCopy.board))
+      .order("desc")
+      .first();
+
+    const newOrder = lastList ? lastList.order + 1 : 1;
+
+    const copiedList = await ctx.db.insert("lists", {
+      board: listToCopy.board,
+      order: newOrder,
+      title: `${listToCopy.title} - Copy`,
+    });
+
+    const cards = await ctx.db
+      .query("cards")
+      .withIndex("by_list", (q) => q.eq("list", listToCopy._id))
+      .collect();
+
+    for (const card of cards) {
+      await ctx.db.insert("cards", {
+        list: copiedList,
+        title: card.title,
+        description: card.description,
+        order: card.order,
+      });
+    }
+  },
+});

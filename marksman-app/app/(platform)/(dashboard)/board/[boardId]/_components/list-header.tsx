@@ -22,13 +22,14 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { ListOptions } from "./list-options";
 
 interface ListHeaderProps {
   data: ListWithCards;
   onAddCard: () => void;
 }
 
-export const ListHeader = ({ data }: ListHeaderProps) => {
+export const ListHeader = ({ data, onAddCard }: ListHeaderProps) => {
   const { organization } = useOrganization();
 
   const router = useRouter();
@@ -131,6 +132,7 @@ export const ListHeader = ({ data }: ListHeaderProps) => {
           {data.title}
         </div>
       )}
+      <ListOptions data={data} onAddCard={onAddCard} />
     </div>
   );
 };
