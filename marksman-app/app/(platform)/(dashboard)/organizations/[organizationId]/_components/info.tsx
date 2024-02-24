@@ -28,7 +28,7 @@ export const Info = () => {
           alt="Organization"
         />
         <div className="space-y-1 ml-3 flex flex-col">
-          <span className="text-lg lg:text-xl font-semibold text-neutral-300 truncate">
+          <span className="text-lg lg:text-xl font-semibold dark:text-neutral-300 text-neutral-600 truncate">
             {organization?.name}
           </span>
           <div className="flex items-center text-xs text-muted-foreground">

@@ -13,6 +13,7 @@ import { ElementRef, useCallback, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 
 import { cn } from "@/lib/utils";
+import { ModeToggle } from "@/components/mode-toggle";
 
 import { OrgItem } from "./org-item";
 import { Item } from "./item";
@@ -193,6 +194,9 @@ export const Navigation = () => {
           <p className="font-medium capitalize pl-2 text-sm">
             {user?.username}
           </p>
+          <div className="ml-auto z-[99999]">
+            <ModeToggle />
+          </div>
         </div>
       </aside>
 

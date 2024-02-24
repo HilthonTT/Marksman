@@ -22,7 +22,7 @@ export const BoardList = ({ orgId }: BoardListProps) => {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center font-semibold text-lg text-neutral-200">
+      <div className="flex items-center font-semibold text-lg dark:text-neutral-300 text-neutral-600">
         <User2 className="h-6 w-6" />
         Your boards
       </div>
