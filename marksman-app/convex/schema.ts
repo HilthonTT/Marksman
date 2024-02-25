@@ -10,12 +10,14 @@ export default defineSchema({
     imageFullUrl: v.string(),
     imageLinkHTML: v.string(),
   }).index("by_org", ["orgId"]),
+
   lists: defineTable({
     title: v.string(),
     order: v.number(),
 
     board: v.id("boards"),
   }).index("by_board", ["board"]),
+
   cards: defineTable({
     title: v.string(),
     order: v.number(),

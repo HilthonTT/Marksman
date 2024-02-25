@@ -1,12 +1,11 @@
 "use client";
 
 import { z } from "zod";
-import { ElementRef, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useOrganization } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
+import { ElementRef, useRef } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "convex/react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import {
@@ -15,7 +14,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -23,70 +21,56 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CreateBoard } from "@/schemas/board-schemas";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { CreateBillboard } from "@/schemas/billboard-schemas";
+import { api } from "@/convex/_generated/api";
 
-import { FormPicker } from "./form-picker";
-
-interface FormPopoverProps {
+interface FormBillboardPopoverProps {
+  orgId: string;
   children: React.ReactNode;
   side?: "left" | "right" | "top" | "bottom";
   align?: "start" | "center" | "end";
   sideOffset?: number;
 }
 
-export const FormPopover = ({
+export const FormBillboardPopover = ({
+  orgId,
   children,
   side,
   align,
   sideOffset,
-}: FormPopoverProps) => {
-  const router = useRouter();
-  const { organization } = useOrganization();
-
+}: FormBillboardPopoverProps) => {
   const closeRef = useRef<ElementRef<"button">>(null);
 
-  const create = useMutation(api.boards.create);
+  const create = useMutation(api.billboards.create);
 
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-  const form = useForm<z.infer<typeof CreateBoard>>({
-    resolver: zodResolver(CreateBoard),
+  const form = useForm<z.infer<typeof CreateBillboard>>({
+    resolver: zodResolver(CreateBillboard),
     defaultValues: {
       title: "",
-      image: "",
+      orgId,
     },
   });
 
-  const onSubmit = (values: z.infer<typeof CreateBoard>) => {
-    if (!organization) {
-      return router.push("/select-org");
-    }
-
-    setIsSubmitting(true);
-
+  const onSubmit = (values: z.infer<typeof CreateBillboard>) => {
     const promise = create({
       title: values.title,
-      image: values.image,
-      orgId: organization?.id!,
-    }).then((boardId: string) => {
-      setIsSubmitting(false);
+      orgId,
+    }).then(() => {
       form.reset();
-      closeRef?.current?.click();
-      router.push(`/board/${boardId}`);
+      closeRef.current?.click();
     });
 
     toast.promise(promise, {
-      loading: "Creating a new board...",
-      success: "New board created!",
-      error: "Failed to create a new board.",
+      loading: "Creating billboard...",
+      success: "Billboard created!",
+      error: "Failed to create billboard.",
     });
   };
 
-  const isLoading = form.formState.isLoading;
+  const isLoading = form.formState.isSubmitting;
 
   return (
     <Popover>
@@ -104,21 +88,6 @@ export const FormPopover = ({
             <div className="space-y-2">
               <FormField
                 control={form.control}
-                name="image"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <FormPicker
-                        onChange={field.onChange}
-                        isSubmitting={isSubmitting}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name="title"
                 render={({ field }) => (
                   <FormItem>
@@ -127,7 +96,7 @@ export const FormPopover = ({
                       <Input
                         {...field}
                         className="focus-visible:ring-transparent"
-                        placeholder="Enter a board title"
+                        placeholder="Enter a billboard title"
                         disabled={isLoading}
                       />
                     </FormControl>
