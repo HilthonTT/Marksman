@@ -11,9 +11,12 @@ import {
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { ElementRef, useCallback, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
+import { useQuery } from "convex/react";
 
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/mode-toggle";
+import { Separator } from "@/components/ui/separator";
+import { api } from "@/convex/_generated/api";
 
 import { OrgItem } from "./org-item";
 import { Item } from "./item";
@@ -31,6 +34,8 @@ export const Navigation = () => {
   const isResizingRef = useRef<boolean>(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
   const navbarRef = useRef<ElementRef<"div">>(null);
+
+  const boards = useQuery(api.boards.getAll, { orgId: organization?.id! });
 
   const [isResetting, setIsResetting] = useState<boolean>(false);
   const [isCollapsed, setIsCollapsed] = useState<boolean>(isMobile);
@@ -154,11 +159,13 @@ export const Navigation = () => {
           <Item
             label="Boards"
             icon={KanbanSquare}
+            active={pathname === `/organizations/${organization?.id}`}
             onClick={() => router.push(`/organizations/${organization?.id}`)}
           />
           <Item
             label="Inventory"
             icon={Box}
+            active={pathname === `/organizations/${organization?.id}/inventory`}
             onClick={() =>
               router.push(`/organizations/${organization?.id}/inventory`)
             }
@@ -166,10 +173,20 @@ export const Navigation = () => {
           <Item
             label="Settings"
             icon={Settings}
+            active={pathname === `/organizations/${organization?.id}/settings`}
             onClick={() =>
               router.push(`/organizations/${organization?.id}/settings`)
             }
           />
+          <Separator className="my-2 bg-primary/30" />
+          {boards?.map((board) => (
+            <Item
+              label={board.title}
+              image={board.imageFullUrl}
+              active={pathname === `/board/${board._id}`}
+              onClick={() => router.push(`/board/${board._id}`)}
+            />
+          ))}
         </div>
         <div
           onMouseDown={handleMouseDown}
