@@ -26,6 +26,26 @@ export type Card = {
   _creationTime: number;
 };
 
+export type Comment = {
+  _id: Id<"comments">;
+  userId: string;
+  card: Id<"cards">;
+  comment: string;
+  _creationTime: number;
+};
+
+export type CardWithComments = Card & {
+  comments: Comment[];
+};
+
 export type ListWithCards = List & {
-  cards: Card[];
+  cards: CardWithComments[];
+};
+
+export type User = {
+  id: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  imageUrl: string;
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { useQuery } from "convex/react";
 import { UserButton, useUser, useOrganization } from "@clerk/nextjs";
 import {
   Box,
@@ -14,6 +15,8 @@ import { useMediaQuery } from "usehooks-ts";
 
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/mode-toggle";
+import { api } from "@/convex/_generated/api";
+import { Separator } from "@/components/ui/separator";
 
 import { OrgItem } from "./org-item";
 import { Item } from "./item";
@@ -23,10 +26,13 @@ export const Navigation = () => {
   const { user } = useUser();
   const { organization } = useOrganization();
 
-  const router = useRouter();
   const params = useParams();
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const boards = useQuery(api.boards.getAll, {
+    orgId: organization?.id as string,
+  });
 
   const isResizingRef = useRef<boolean>(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
@@ -154,22 +160,29 @@ export const Navigation = () => {
           <Item
             label="Boards"
             icon={KanbanSquare}
-            onClick={() => router.push(`/organizations/${organization?.id}`)}
+            href={`/organizations/${organization?.id}`}
           />
           <Item
             label="Inventory"
             icon={Box}
-            onClick={() =>
-              router.push(`/organizations/${organization?.id}/inventory`)
-            }
+            href={`/organizations/${organization?.id}/inventory`}
           />
           <Item
             label="Settings"
             icon={Settings}
-            onClick={() =>
-              router.push(`/organizations/${organization?.id}/settings`)
-            }
+            href={`/organizations/${organization?.id}/settings`}
           />
+
+          <Separator className="my-1 bg-primary/30" />
+
+          {boards?.map((board) => (
+            <Item
+              key={board._id}
+              label={board.title}
+              imageUrl={board.imageFullUrl}
+              href={`/board/${board._id}`}
+            />
+          ))}
         </div>
         <div
           onMouseDown={handleMouseDown}

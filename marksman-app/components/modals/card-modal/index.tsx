@@ -6,6 +6,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Header } from "./header";
 import { Description } from "./description";
 import { Actions } from "./actions";
+import { Activity } from "./activity";
 
 export const CardModal = () => {
   const cardModal = useCardModal();
@@ -27,8 +28,9 @@ export const CardModal = () => {
               {!card ? <Description.Skeleton /> : <Description data={card} />}
             </div>
           </div>
-          {!card ? <></> : <Actions data={card} />}
+          {!card ? <Actions.Skeleton /> : <Actions data={card} />}
         </div>
+        {!card ? <></> : <Activity card={card} />}
       </DialogContent>
     </Dialog>
   );

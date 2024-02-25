@@ -16,6 +16,7 @@ import type {
 } from "convex/server";
 import type * as boards from "../boards.js";
 import type * as cards from "../cards.js";
+import type * as comments from "../comments.js";
 import type * as lists from "../lists.js";
 
 /**
@@ -29,6 +30,7 @@ import type * as lists from "../lists.js";
 declare const fullApi: ApiFromModules<{
   boards: typeof boards;
   cards: typeof cards;
+  comments: typeof comments;
   lists: typeof lists;
 }>;
 export declare const api: FilterApi<

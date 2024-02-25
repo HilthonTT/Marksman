@@ -3,11 +3,11 @@
 import { Draggable } from "@hello-pangea/dnd";
 
 import { useCardModal } from "@/hooks/use-card-modal";
-import { Card, ListWithCards } from "@/types";
+import { CardWithComments, ListWithCards } from "@/types";
 
 interface CardItemProps {
   index: number;
-  data: Card;
+  data: CardWithComments;
   list: ListWithCards;
 }
 

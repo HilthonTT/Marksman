@@ -1,19 +1,19 @@
 import { create } from "zustand";
 
-import { Card, ListWithCards } from "@/types";
+import { CardWithComments, ListWithCards } from "@/types";
 
 type CardModalStore = {
-  card?: Card;
+  card?: CardWithComments;
   list?: ListWithCards;
   isOpen: boolean;
-  onOpen: (card: Card, list?: ListWithCards) => void;
+  onOpen: (card: CardWithComments, list?: ListWithCards) => void;
   onClose: () => void;
 };
 
 export const useCardModal = create<CardModalStore>((set) => ({
   id: undefined,
   isOpen: false,
-  onOpen: (card: Card, list?: ListWithCards) =>
+  onOpen: (card: CardWithComments, list?: ListWithCards) =>
     set({ isOpen: true, card, list }),
   onClose: () => set({ isOpen: false, card: undefined, list: undefined }),
 }));

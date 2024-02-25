@@ -31,7 +31,19 @@ export const getByBoardId = query({
           .query("cards")
           .withIndex("by_list", (q) => q.eq("list", list._id))
           .collect();
-        return { ...list, cards };
+
+        // Fetch comments associated with each card
+        const cardsWithComments = await Promise.all(
+          cards.map(async (card) => {
+            const comments = await ctx.db
+              .query("comments")
+              .withIndex("by_card", (q) => q.eq("card", card._id))
+              .collect();
+            return { ...card, comments };
+          })
+        );
+
+        return { ...list, cards: cardsWithComments };
       })
     );
 

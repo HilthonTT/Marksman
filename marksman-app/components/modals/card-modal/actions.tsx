@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
 import { useCardModal } from "@/hooks/use-card-modal";
 import { Card } from "@/types";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ActionsProps {
   data: Card;
@@ -94,6 +95,17 @@ export const Actions = ({ data }: ActionsProps) => {
           </>
         )}
       </Button>
+    </div>
+  );
+};
+
+Actions.Skeleton = function ActionsSkeleton() {
+  return (
+    <div className="space-y-2 mt-2">
+      <Skeleton className="h-4 w-16 bg-neutral-200" />
+
+      <Skeleton className="h-6 w-24 bg-neutral-200" />
+      <Skeleton className="h-6 w-24 bg-neutral-200" />
     </div>
   );
 };

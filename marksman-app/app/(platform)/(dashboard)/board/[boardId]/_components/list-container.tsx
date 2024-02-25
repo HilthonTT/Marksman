@@ -31,6 +31,8 @@ export const ListContainer = ({ boardId }: ListContainerProps) => {
     boardId,
   });
 
+  console.log(lists);
+
   const updateListOrder = useMutation(api.lists.updateOrder);
   const updateCardOrder = useMutation(api.cards.updateOrder);
 
