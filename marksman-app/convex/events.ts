@@ -73,13 +73,22 @@ export const update = mutation({
       throw new Error("Invalid data input");
     }
 
-    const event = await ctx.db.patch(args.id, {
+    const event = await ctx.db.get(args.id);
+    if (!event) {
+      throw new Error("Not found");
+    }
+
+    // Check if description is supplied, if not, keep the existing description
+    const updatedDescription =
+      args.description !== undefined ? args.description : event.description;
+
+    const updatedEvent = await ctx.db.patch(args.id, {
       title: args.title,
-      description: args.description,
+      description: updatedDescription,
       start: args.start,
     });
 
-    return event;
+    return updatedEvent;
   },
 });
 

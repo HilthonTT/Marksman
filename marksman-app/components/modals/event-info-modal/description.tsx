@@ -32,7 +32,9 @@ export const Description = ({ data }: DescriptionProps) => {
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [description, setDescription] = useState<string | undefined>(
-    data.description || "Add a more detailed description..."
+    data?.description?.length === 0
+      ? "Add a more detailed description..."
+      : data.description
   );
 
   const textareaRef = useRef<ElementRef<"textarea">>(null);

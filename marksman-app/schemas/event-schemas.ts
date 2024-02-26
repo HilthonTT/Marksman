@@ -57,14 +57,9 @@ export const UpdateEvent = z.object({
       message: "Title is too long",
     }),
   description: z.optional(
-    z
-      .string()
-      .min(3, {
-        message: "Description is too short",
-      })
-      .max(500, {
-        message: "Description is too long",
-      })
+    z.string().max(500, {
+      message: "Description is too long",
+    })
   ),
   start: z.number({
     required_error: "Start is required",
