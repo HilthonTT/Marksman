@@ -17,6 +17,7 @@ import type {
 import type * as boards from "../boards.js";
 import type * as cards from "../cards.js";
 import type * as comments from "../comments.js";
+import type * as events from "../events.js";
 import type * as lists from "../lists.js";
 
 /**
@@ -31,6 +32,7 @@ declare const fullApi: ApiFromModules<{
   boards: typeof boards;
   cards: typeof cards;
   comments: typeof comments;
+  events: typeof events;
   lists: typeof lists;
 }>;
 export declare const api: FilterApi<

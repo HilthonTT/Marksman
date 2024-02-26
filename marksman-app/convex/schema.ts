@@ -31,4 +31,10 @@ export default defineSchema({
   })
     .index("by_user", ["userId"])
     .index("by_card", ["card"]),
+  events: defineTable({
+    orgId: v.string(),
+    title: v.string(),
+    start: v.string(),
+    allDay: v.boolean(),
+  }).index("by_org", ["orgId"]),
 });

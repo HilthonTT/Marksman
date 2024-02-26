@@ -2,6 +2,8 @@ import { v } from "convex/values";
 
 import { mutation } from "./_generated/server";
 
+import { CreateComment } from "../schemas/comment-schemas";
+
 export const create = mutation({
   args: {
     cardId: v.id("cards"),
@@ -12,6 +14,11 @@ export const create = mutation({
 
     if (!identity) {
       throw new Error("Unauthorized");
+    }
+
+    const result = await CreateComment.safeParseAsync(args);
+    if (!result.success) {
+      throw new Error("Invalid data input");
     }
 
     const userId = identity.subject;

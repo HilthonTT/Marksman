@@ -16,7 +16,7 @@ export const CardModal = () => {
 
   return (
     <Dialog open={cardModal.isOpen} onOpenChange={cardModal.onClose}>
-      <DialogContent className="bg-white">
+      <DialogContent className="bg-white overflow-hidden">
         {!card || !list ? (
           <Header.Skeleton />
         ) : (
