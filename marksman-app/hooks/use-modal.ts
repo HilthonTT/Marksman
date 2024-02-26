@@ -1,17 +1,28 @@
 import { create } from "zustand";
 
-export type ModalType = "createEvent";
+import { Event } from "@/types";
+
+export type ModalType = "createEvent" | "eventInfo";
+
+interface ModalData {
+  start?: Date;
+  allDay?: boolean;
+  event?: Event;
+  orgId?: string;
+}
 
 interface ModalStore {
   type: ModalType | null;
+  data: ModalData;
   isOpen: boolean;
-  onOpen: (type: ModalType) => void;
+  onOpen: (type: ModalType, data?: ModalData) => void;
   onClose: () => void;
 }
 
 export const useModal = create<ModalStore>((set) => ({
   type: null,
   isOpen: false,
-  onOpen: (type: ModalType) => set({ isOpen: true, type }),
+  data: {},
+  onOpen: (type: ModalType, data = {}) => set({ isOpen: true, type, data }),
   onClose: () => set({ isOpen: false, type: null }),
 }));

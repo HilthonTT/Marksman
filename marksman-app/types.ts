@@ -49,3 +49,13 @@ export type User = {
   lastName: string;
   imageUrl: string;
 };
+
+export type Event = {
+  _id: Id<"events">;
+  title: string;
+  orgId: string;
+  start: number;
+  description?: string;
+  allDay: boolean;
+  _creationTime: number;
+};

@@ -105,7 +105,7 @@ export const Activity = ({ card }: ActivityProps) => {
             />
           </form>
         </Form>
-        <ScrollArea className="mt-4 h-[420px] pr-6">
+        <ScrollArea className="mt-4 max-h-[420px] overflow-y-auto pr-6">
           <div className="space-y-4">
             {card.comments.map((comment) => (
               <Comment key={comment._id} comment={comment} />

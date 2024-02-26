@@ -4,6 +4,7 @@ import { useIsClient } from "usehooks-ts";
 
 import { CardModal } from "@/components/modals/card-modal";
 import { CreateEventModal } from "@/components/modals/create-event-modal";
+import { EventInfoModal } from "@/components/modals/event-info-modal";
 
 export const ModalProvider = () => {
   const isClient = useIsClient();
@@ -16,6 +17,7 @@ export const ModalProvider = () => {
     <>
       <CardModal />
       <CreateEventModal />
+      <EventInfoModal />
     </>
   );
 };

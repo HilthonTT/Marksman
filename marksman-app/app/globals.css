@@ -62,6 +62,12 @@ input {
   @apply transition;
 }
 
+.fc-view,
+.fc-scrollgrid,
+.fc-view-harness {
+  @apply rounded-md;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
