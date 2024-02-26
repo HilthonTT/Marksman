@@ -34,7 +34,7 @@ export const Heading = () => {
         </Button>
       )}
       {!isAuthenticated && !isLoading && (
-        <SignInButton>
+        <SignInButton mode="modal">
           <Button>
             <ArrowRight className="h-4 w-4 mr-2" />
             Mark your debut

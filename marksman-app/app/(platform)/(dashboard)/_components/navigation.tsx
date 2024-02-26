@@ -22,6 +22,8 @@ import { Separator } from "@/components/ui/separator";
 import { OrgItem } from "./org-item";
 import { Item } from "./item";
 import { BoardNavbar } from "./board-navbar";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Label } from "@/components/ui/label";
 
 export const Navigation = () => {
   const { user } = useUser();
@@ -163,11 +165,6 @@ export const Navigation = () => {
             icon={KanbanSquare}
             href={`/organizations/${organization?.id}`}
           />
-          <Item
-            label="Inventory"
-            icon={Box}
-            href={`/organizations/${organization?.id}/inventory`}
-          />
           <Item label="Calendar" icon={CalendarIcon} href="/calendar" />
           <Item
             label="Settings"
@@ -176,15 +173,19 @@ export const Navigation = () => {
           />
 
           <Separator className="my-1 bg-primary/30" />
-
-          {boards?.map((board) => (
-            <Item
-              key={board._id}
-              label={board.title}
-              imageUrl={board.imageFullUrl}
-              href={`/board/${board._id}`}
-            />
-          ))}
+          <Label className="text-neutral-500 dark:text-neutral-200 ml-1 text-xs">
+            Boards ({boards?.length})
+          </Label>
+          <ScrollArea className="h-[400px] overflow-y-auto">
+            {boards?.map((board) => (
+              <Item
+                key={board._id}
+                label={board.title}
+                imageUrl={board.imageFullUrl}
+                href={`/board/${board._id}`}
+              />
+            ))}
+          </ScrollArea>
         </div>
         <div
           onMouseDown={handleMouseDown}
