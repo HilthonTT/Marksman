@@ -31,11 +31,20 @@ export default defineSchema({
   })
     .index("by_user", ["userId"])
     .index("by_card", ["card"]),
+
   events: defineTable({
     orgId: v.string(),
     title: v.string(),
     start: v.number(),
     description: v.optional(v.string()),
     allDay: v.boolean(),
+  }).index("by_org", ["orgId"]),
+
+  subscriptions: defineTable({
+    orgId: v.string(),
+    stripeCustomerId: v.optional(v.string()),
+    stripeSubscriptionId: v.optional(v.string()),
+    stripePriceId: v.optional(v.string()),
+    stripeCurrentPeriodEnd: v.optional(v.number()),
   }).index("by_org", ["orgId"]),
 });
