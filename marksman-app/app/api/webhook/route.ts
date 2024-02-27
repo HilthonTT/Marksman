@@ -1,7 +1,6 @@
 import Stripe from "stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-
 import { fetchMutation } from "convex/nextjs";
 
 import { stripe } from "@/lib/stripe";
@@ -35,7 +34,7 @@ export async function POST(req: Request) {
       return new NextResponse("Org Id is required", { status: 400 });
     }
 
-    await fetchMutation(api.subscription.create, {
+    await fetchMutation(api.subscriptions.create, {
       orgId: session?.metadata?.orgId,
       stripeSubscriptionId: subscription?.id,
       stripeCustomerId: subscription?.customer as string,
@@ -51,7 +50,7 @@ export async function POST(req: Request) {
       session.subscription as string
     );
 
-    await fetchMutation(api.subscription.update, {
+    await fetchMutation(api.subscriptions.update, {
       stripeSubscriptionId: subscription?.id,
       stripePriceId: subscription?.items.data[0].price.id,
       stripeCurrentPeriodEnd: new Date(

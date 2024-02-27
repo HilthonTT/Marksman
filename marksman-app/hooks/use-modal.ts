@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import { Event } from "@/types";
 
-export type ModalType = "createEvent" | "eventInfo";
+export type ModalType = "createEvent" | "eventInfo" | "pro";
 
 interface ModalData {
   start?: Date;

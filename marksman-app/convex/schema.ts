@@ -47,4 +47,9 @@ export default defineSchema({
     stripePriceId: v.optional(v.string()),
     stripeCurrentPeriodEnd: v.optional(v.number()),
   }).index("by_org", ["orgId"]),
+
+  orgLimits: defineTable({
+    orgId: v.string(),
+    count: v.number(),
+  }).index("by_org", ["orgId"]),
 });

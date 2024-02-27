@@ -19,7 +19,8 @@ import type * as cards from "../cards.js";
 import type * as comments from "../comments.js";
 import type * as events from "../events.js";
 import type * as lists from "../lists.js";
-import type * as subscription from "../subscription.js";
+import type * as orglimits from "../orglimits.js";
+import type * as subscriptions from "../subscriptions.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -35,7 +36,8 @@ declare const fullApi: ApiFromModules<{
   comments: typeof comments;
   events: typeof events;
   lists: typeof lists;
-  subscription: typeof subscription;
+  orglimits: typeof orglimits;
+  subscriptions: typeof subscriptions;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

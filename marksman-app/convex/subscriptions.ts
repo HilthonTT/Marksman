@@ -1,7 +1,7 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
-const DATE_IN_MS = 86_400_000;
+import { DATE_IN_MS } from "../constants/day-in-ms";
 
 export const check = query({
   args: {
@@ -76,5 +76,19 @@ export const update = mutation({
     });
 
     return updatedSubcription;
+  },
+});
+
+export const get = query({
+  args: {
+    orgId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const subscription = await ctx.db
+      .query("subscriptions")
+      .withIndex("by_org", (q) => q.eq("orgId", args.orgId))
+      .first();
+
+    return subscription;
   },
 });

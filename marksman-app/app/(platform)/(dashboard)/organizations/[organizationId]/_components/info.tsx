@@ -4,14 +4,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useOrganization } from "@clerk/nextjs";
 import { CreditCard, Recycle } from "lucide-react";
+import { useQuery } from "convex/react";
 
+import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const Info = () => {
   const { organization, isLoaded } = useOrganization();
 
-  if (!isLoaded) {
+  const isPro = useQuery(api.subscriptions.check, {
+    orgId: organization?.id as string,
+  });
+
+  if (!isLoaded || isPro === undefined) {
     return <Info.Skeleton />;
   }
 
@@ -33,7 +39,7 @@ export const Info = () => {
           </span>
           <div className="flex items-center text-xs text-muted-foreground">
             <CreditCard className="h-3 w-3 mr-1" />
-            {true ? "Pro" : "Free"}
+            {isPro ? "Pro" : "Free"}
           </div>
         </div>
         <Button

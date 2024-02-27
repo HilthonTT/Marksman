@@ -28,6 +28,7 @@ import { api } from "@/convex/_generated/api";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CreateBoard } from "@/schemas/board-schemas";
+import { useModal } from "@/hooks/use-modal";
 
 import { FormPicker } from "./form-picker";
 
@@ -45,6 +46,7 @@ export const FormPopover = ({
   sideOffset,
 }: FormPopoverProps) => {
   const router = useRouter();
+  const modal = useModal((state) => state);
   const { organization } = useOrganization();
 
   const closeRef = useRef<ElementRef<"button">>(null);
@@ -72,12 +74,19 @@ export const FormPopover = ({
       title: values.title,
       image: values.image,
       orgId: organization?.id!,
-    }).then((boardId: string) => {
-      setIsSubmitting(false);
-      form.reset();
-      closeRef?.current?.click();
-      router.push(`/board/${boardId}`);
-    });
+    })
+      .then((boardId: string) => {
+        setIsSubmitting(false);
+        form.reset();
+        closeRef?.current?.click();
+        router.push(`/board/${boardId}`);
+      })
+      .catch((error) => {
+        modal.onOpen("pro");
+        closeRef?.current?.click();
+
+        throw new Error(error);
+      });
 
     toast.promise(promise, {
       loading: "Creating a new board...",

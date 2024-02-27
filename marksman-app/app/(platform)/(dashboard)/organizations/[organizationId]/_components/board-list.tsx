@@ -8,6 +8,7 @@ import { api } from "@/convex/_generated/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FormPopover } from "@/components/form/form-popover";
 import { Hint } from "@/components/hint";
+import { MAX_BOARDS } from "@/constants/max-boards";
 
 interface BoardListProps {
   orgId: string;
@@ -15,8 +16,16 @@ interface BoardListProps {
 
 export const BoardList = ({ orgId }: BoardListProps) => {
   const boards = useQuery(api.boards.getAll, { orgId });
+  const isPro = useQuery(api.subscriptions.check, { orgId });
+  const availableCount = useQuery(api.orglimits.getAvailableCount, {
+    orgId,
+  });
 
-  if (boards === undefined) {
+  if (
+    boards === undefined ||
+    isPro === undefined ||
+    availableCount === undefined
+  ) {
     return <BoardList.Skeleton />;
   }
 
@@ -43,7 +52,9 @@ export const BoardList = ({ orgId }: BoardListProps) => {
             className="aspect-video relative h-full w-full bg-muted rounded-sm flex flex-col gap-y-1 items-center justify-center hover:opacity-75 transition">
             <p className="text-sm">Create new board</p>
             <span className="text-xs">
-              {true ? "Unlimited" : `${5 - 0} remaining`}
+              {!!isPro
+                ? "Unlimited"
+                : `${MAX_BOARDS - availableCount} remaining`}
             </span>
             <Hint
               sideOffset={40}

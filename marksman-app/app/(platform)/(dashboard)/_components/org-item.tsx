@@ -3,13 +3,19 @@
 import Image from "next/image";
 import { useOrganization } from "@clerk/clerk-react";
 import { CreditCard } from "lucide-react";
+import { useQuery } from "convex/react";
 
 import { Skeleton } from "@/components/ui/skeleton";
+import { api } from "@/convex/_generated/api";
 
 export const OrgItem = () => {
   const { organization, isLoaded } = useOrganization();
 
-  if (!isLoaded) {
+  const isPro = useQuery(api.subscriptions.check, {
+    orgId: organization?.id as string,
+  });
+
+  if (!isLoaded || isPro === undefined) {
     return <OrgItem.Skeleton />;
   }
 
@@ -29,7 +35,7 @@ export const OrgItem = () => {
         </p>
         <div className="flex items-center text-xs text-muted-foreground">
           <CreditCard className="h-3 w-3 mr-1" />
-          {true ? "Pro" : "Free"}
+          {isPro ? "Pro" : "Free"}
         </div>
       </div>
     </div>

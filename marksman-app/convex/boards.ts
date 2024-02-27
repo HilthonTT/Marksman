@@ -1,9 +1,10 @@
 import { v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
-import { Doc, Id } from "./_generated/dataModel";
 
 import { CreateBoard, UpdateBoard } from "../schemas/board-schemas";
+import { MAX_BOARDS } from "../constants/max-boards";
+import { DATE_IN_MS } from "../constants/day-in-ms";
 
 export const getAll = query({
   args: {
@@ -84,6 +85,61 @@ export const create = mutation({
       throw new Error("Missing fields. Failed to create board");
     }
 
+    const hasAvailableCount = async (): Promise<boolean> => {
+      const orgLimit = await ctx.db
+        .query("orgLimits")
+        .withIndex("by_org", (q) => q.eq("orgId", args.orgId))
+        .first();
+
+      if (!orgLimit || orgLimit?.count < MAX_BOARDS) {
+        return true;
+      }
+
+      return false;
+    };
+
+    const isPro = async () => {
+      const subscription = await ctx.db
+        .query("subscriptions")
+        .withIndex("by_org", (q) => q.eq("orgId", args.orgId))
+        .first();
+
+      if (!subscription) {
+        return false;
+      }
+
+      const isValid =
+        subscription?.stripePriceId &&
+        subscription?.stripeCurrentPeriodEnd! + DATE_IN_MS > Date.now();
+
+      return !!isValid;
+    };
+
+    const incrementAvailableCount = async () => {
+      const orgLimit = await ctx.db
+        .query("orgLimits")
+        .withIndex("by_org", (q) => q.eq("orgId", args.orgId))
+        .first();
+
+      if (orgLimit) {
+        await ctx.db.patch(orgLimit._id, {
+          count: orgLimit.count + 1,
+        });
+      } else {
+        await ctx.db.insert("orgLimits", {
+          orgId: args.orgId,
+          count: 1,
+        });
+      }
+    };
+
+    const pro = await isPro();
+    const canCreate = await hasAvailableCount();
+
+    if (!canCreate && !pro) {
+      throw new Error("Reached limit of free boards.");
+    }
+
     const board = await ctx.db.insert("boards", {
       title: args.title,
       imageId,
@@ -92,6 +148,8 @@ export const create = mutation({
       imageThumbUrl,
       orgId: args.orgId,
     });
+
+    await incrementAvailableCount();
 
     return board;
   },
@@ -156,7 +214,48 @@ export const remove = mutation({
       throw new Error("Unauthorized");
     }
 
+    const isPro = async () => {
+      const subscription = await ctx.db
+        .query("subscriptions")
+        .withIndex("by_org", (q) => q.eq("orgId", args.orgId))
+        .first();
+
+      if (!subscription) {
+        return false;
+      }
+
+      const isValid =
+        subscription?.stripePriceId &&
+        subscription?.stripeCurrentPeriodEnd! + DATE_IN_MS > Date.now();
+
+      return !!isValid;
+    };
+
+    const decreaseAvailableCount = async () => {
+      const orgLimit = await ctx.db
+        .query("orgLimits")
+        .withIndex("by_org", (q) => q.eq("orgId", args.orgId))
+        .first();
+
+      if (orgLimit) {
+        await ctx.db.patch(orgLimit._id, {
+          count: orgLimit.count > 0 ? orgLimit.count - 1 : 0,
+        });
+      } else {
+        await ctx.db.insert("orgLimits", {
+          orgId: args.orgId,
+          count: 1,
+        });
+      }
+    };
+
     const board = await ctx.db.delete(args.id);
+
+    const pro = await isPro();
+
+    if (!pro) {
+      await decreaseAvailableCount();
+    }
 
     return board;
   },

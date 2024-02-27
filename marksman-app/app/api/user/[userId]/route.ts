@@ -1,6 +1,7 @@
-import { User } from "@/types";
 import { auth, clerkClient } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+
+import { User } from "@/types";
 
 export async function GET(
   req: Request,
