@@ -1,7 +1,7 @@
 "use client";
 
 import { useOrganization } from "@clerk/nextjs";
-import { notFound, redirect } from "next/navigation";
+import { notFound, redirect, usePathname } from "next/navigation";
 import { useQuery } from "convex/react";
 
 import { api } from "@/convex/_generated/api";
@@ -15,6 +15,7 @@ interface BoardLayoutProps {
 }
 
 const BoardLayout = ({ params, children }: BoardLayoutProps) => {
+  const pathname = usePathname();
   const { organization } = useOrganization();
 
   if (!organization) {
@@ -32,6 +33,16 @@ const BoardLayout = ({ params, children }: BoardLayoutProps) => {
 
   if (board === null) {
     return notFound();
+  }
+
+  const isConference = pathname.includes("/conference");
+
+  if (isConference) {
+    return (
+      <div className="relative h-full w-full">
+        <main className="h-full relative">{children}</main>
+      </div>
+    );
   }
 
   return (

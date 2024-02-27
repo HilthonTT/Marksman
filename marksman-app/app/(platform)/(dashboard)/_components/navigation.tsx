@@ -18,12 +18,12 @@ import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/mode-toggle";
 import { api } from "@/convex/_generated/api";
 import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Label } from "@/components/ui/label";
 
 import { OrgItem } from "./org-item";
 import { Item } from "./item";
 import { BoardNavbar } from "./board-navbar";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Label } from "@/components/ui/label";
 
 export const Navigation = () => {
   const { user } = useUser();
@@ -223,7 +223,7 @@ export const Navigation = () => {
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "left-0 w-full"
         )}>
-        {!!params.boardId ? (
+        {!!params.boardId && !pathname.includes("/conference") ? (
           <BoardNavbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
         ) : (
           <nav className="bg-transparent px-3 py-2 w-full">

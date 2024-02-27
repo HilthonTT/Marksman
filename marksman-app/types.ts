@@ -8,6 +8,7 @@ export type Board = {
   imageThumbUrl: string;
   imageFullUrl: string;
   imageLinkHTML: string;
+  activeRecording: boolean;
 };
 
 export type List = {

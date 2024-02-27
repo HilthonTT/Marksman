@@ -9,6 +9,7 @@ export default defineSchema({
     imageThumbUrl: v.string(),
     imageFullUrl: v.string(),
     imageLinkHTML: v.string(),
+    activeRecording: v.boolean(),
   }).index("by_org", ["orgId"]),
 
   lists: defineTable({
@@ -24,6 +25,7 @@ export default defineSchema({
     description: v.optional(v.string()),
     list: v.id("lists"),
   }).index("by_list", ["list"]),
+
   comments: defineTable({
     userId: v.string(),
     comment: v.string(),

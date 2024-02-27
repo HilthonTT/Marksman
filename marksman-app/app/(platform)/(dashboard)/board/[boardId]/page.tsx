@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 import { Id } from "@/convex/_generated/dataModel";
+
 import { ListContainer } from "./_components/list-container";
 
 interface BoardPageProps {

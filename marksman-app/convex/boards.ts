@@ -147,6 +147,7 @@ export const create = mutation({
       imageLinkHTML,
       imageThumbUrl,
       orgId: args.orgId,
+      activeRecording: false,
     });
 
     await incrementAvailableCount();
@@ -258,5 +259,25 @@ export const remove = mutation({
     }
 
     return board;
+  },
+});
+
+export const updateAnynomous = mutation({
+  args: {
+    id: v.id("boards"),
+    activeRecording: v.boolean(),
+  },
+  handler: async (ctx, args) => {
+    const board = await ctx.db.get(args.id);
+
+    if (!board) {
+      throw new Error("Not found");
+    }
+
+    const updatedBoard = await ctx.db.patch(args.id, {
+      activeRecording: args.activeRecording,
+    });
+
+    return updatedBoard;
   },
 });
