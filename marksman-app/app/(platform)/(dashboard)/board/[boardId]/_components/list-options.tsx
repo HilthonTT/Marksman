@@ -76,26 +76,26 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
         </div>
         <PopoverClose ref={closeRef} asChild>
           <Button
-            className="w-auto h-auto absolute top-2 right-2 p-2"
+            className="w-auto h-auto absolute top-2 right-2 p-2 bg-transparent text-black hover:bg-neutral-200"
             aria-label="Close">
             <X className="h-4 w-4" />
           </Button>
         </PopoverClose>
         <Button
           onClick={onAddCard}
-          className="rounded-none w-full h-auto px-5 p-2 justify-start font-normal text-sm hover:bg-neutral-200 transition">
+          className="rounded-none w-full h-auto px-5 p-2 justify-start font-normal text-sm bg-white text-black hover:bg-neutral-200 transition">
           <PlusIcon className="h-4 w-4 mr-2" />
           Add card...
         </Button>
         <Button
           onClick={onCopy}
-          className="rounded-none w-full h-auto px-5 p-2 justify-start font-normal text-sm hover:bg-neutral-200 transition">
+          className="rounded-none w-full h-auto px-5 p-2 justify-start font-normal text-sm bg-white text-black hover:bg-neutral-200 transition">
           <CopyIcon className="h-4 w-4 mr-2" />
           Copy list
         </Button>
         <Button
           onClick={onDelete}
-          className="rounded-none w-full h-auto px-5 p-2 justify-start font-normal text-sm hover:bg-neutral-200 transition">
+          className="rounded-none w-full h-auto px-5 p-2 justify-start font-normal text-sm bg-white text-black hover:bg-neutral-200 transition">
           <TrashIcon className="h-4 w-4 mr-2" />
           Delete list
         </Button>

@@ -121,7 +121,7 @@ export const ListContainer = ({ boardId }: ListContainerProps) => {
         });
 
         const mappedCards = reorderedCards.map((card) => {
-          const { _creationTime, ...rest } = card;
+          const { _creationTime, comments, ...rest } = card;
           return rest;
         });
 
@@ -155,7 +155,7 @@ export const ListContainer = ({ boardId }: ListContainerProps) => {
         });
 
         const mappedCards = destList.cards.map((card) => {
-          const { _creationTime, ...rest } = card;
+          const { _creationTime, comments, ...rest } = card;
           return rest;
         });
 
