@@ -54,4 +54,13 @@ export default defineSchema({
     orgId: v.string(),
     count: v.number(),
   }).index("by_org", ["orgId"]),
+
+  items: defineTable({
+    orgId: v.string(),
+    name: v.string(),
+    quantity: v.number(),
+    price: v.optional(v.float64()),
+    minLevel: v.optional(v.number()),
+    imageUrl: v.optional(v.string()),
+  }).index("by_org", ["orgId"]),
 });

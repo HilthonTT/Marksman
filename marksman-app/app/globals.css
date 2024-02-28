@@ -31,23 +31,23 @@ input {
 }
 
 .fc-h-event {
-  @apply bg-violet-500 border border-violet-600;
+  @apply bg-black border border-neutral-600;
 }
 
 .fc .fc-daygrid-day.fc-day-today {
-  @apply bg-violet-100;
+  @apply bg-neutral-200/80;
 }
 
 .fc .fc-button {
-  @apply bg-violet-800 hover:bg-violet-900;
+  @apply bg-zinc-800 dark:bg-white text-white dark:text-black hover:bg-neutral-700 dark:hover:bg-neutral-200;
 }
 
 .fc .fc-button-primary:not(:disabled).fc-button-active {
-  @apply bg-violet-600;
+  @apply bg-zinc-800 dark:bg-white text-white dark:text-black hover:bg-neutral-700 dark:hover:bg-neutral-200;
 }
 
 .fc .fc-button-primary:disabled {
-  @apply bg-violet-600;
+  @apply bg-zinc-800 dark:bg-white text-white dark:text-black hover:bg-neutral-700 dark:hover:bg-neutral-200;
 }
 
 .fc-v-event {
@@ -55,7 +55,7 @@ input {
 }
 
 .fc-toolbar-title {
-  @apply text-white;
+  @apply text-black dark:text-white;
 }
 
 .fc-button {

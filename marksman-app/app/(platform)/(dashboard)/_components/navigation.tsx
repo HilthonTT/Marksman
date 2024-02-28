@@ -3,7 +3,7 @@
 import { useQuery } from "convex/react";
 import { UserButton, useUser, useOrganization } from "@clerk/nextjs";
 import {
-  Box,
+  BoxIcon,
   CalendarIcon,
   ChevronsLeft,
   KanbanSquare,
@@ -165,6 +165,7 @@ export const Navigation = () => {
             icon={KanbanSquare}
             href={`/organizations/${organization?.id}`}
           />
+          <Item label="Inventory" icon={BoxIcon} href="/inventory" />
           <Item label="Calendar" icon={CalendarIcon} href="/calendar" />
           <Item
             label="Settings"
