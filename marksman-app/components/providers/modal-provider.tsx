@@ -6,7 +6,6 @@ import { CardModal } from "@/components/modals/card-modal";
 import { CreateEventModal } from "@/components/modals/create-event-modal";
 import { EventInfoModal } from "@/components/modals/event-info-modal";
 import { ProModal } from "@/components/modals/pro-modal";
-import { CreateItemModal } from "@/components/modals/create-item-modal";
 
 export const ModalProvider = () => {
   const isClient = useIsClient();
@@ -21,7 +20,6 @@ export const ModalProvider = () => {
       <CreateEventModal />
       <EventInfoModal />
       <ProModal />
-      <CreateItemModal />
     </>
   );
 };

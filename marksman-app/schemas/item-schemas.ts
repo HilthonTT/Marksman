@@ -1,10 +1,14 @@
 import { z } from "zod";
 
 export const CreateItem = z.object({
-  name: z.string({
-    required_error: "Name is required",
-    invalid_type_error: "Name is required",
-  }),
+  name: z
+    .string({
+      required_error: "Name is required",
+      invalid_type_error: "Name is required",
+    })
+    .min(1, {
+      message: "Name is too short",
+    }),
   quantity: z.number({
     required_error: "Quantity is required",
     invalid_type_error: "Quantity is required",

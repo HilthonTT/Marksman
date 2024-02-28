@@ -18,7 +18,6 @@ import type * as boards from "../boards.js";
 import type * as cards from "../cards.js";
 import type * as comments from "../comments.js";
 import type * as events from "../events.js";
-import type * as items from "../items.js";
 import type * as lists from "../lists.js";
 import type * as orglimits from "../orglimits.js";
 import type * as subscriptions from "../subscriptions.js";
@@ -36,7 +35,6 @@ declare const fullApi: ApiFromModules<{
   cards: typeof cards;
   comments: typeof comments;
   events: typeof events;
-  items: typeof items;
   lists: typeof lists;
   orglimits: typeof orglimits;
   subscriptions: typeof subscriptions;

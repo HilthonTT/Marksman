@@ -10,7 +10,7 @@ import { useModal } from "@/hooks/use-modal";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { redirectStripe } from "@/app/actions/stripe";
+import { redirectStripe } from "@/actions/stripe";
 
 export const ProModal = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

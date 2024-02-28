@@ -11,6 +11,8 @@
   "dependencies": {
     "@clerk/nextjs": "^4.29.8",
     "@clerk/themes": "^1.7.9",
+    "@edgestore/react": "^0.1.6",
+    "@edgestore/server": "^0.1.6",
     "@fullcalendar/core": "^6.1.11",
     "@fullcalendar/daygrid": "^6.1.11",
     "@fullcalendar/interaction": "^6.1.11",
@@ -47,7 +49,6 @@
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
     "unsplash-js": "^7.0.19",
-    "uploadthing": "^6.4.1",
     "usehooks-ts": "^2.14.0",
     "zod": "^3.22.4",
     "zustand": "^4.5.1"
