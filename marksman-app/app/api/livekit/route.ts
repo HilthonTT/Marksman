@@ -30,7 +30,14 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const at = new AccessToken(apiKey, apiSecret, { identity: username });
+  const data = JSON.stringify({
+    roomId: room,
+  });
+
+  const at = new AccessToken(apiKey, apiSecret, {
+    identity: username,
+    metadata: data,
+  });
 
   at.addGrant({ room, roomJoin: true, canPublish: true, canSubscribe: true });
 

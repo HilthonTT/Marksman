@@ -1,12 +1,7 @@
 "use client";
 
 import "@livekit/components-styles";
-import {
-  ControlBar,
-  LiveKitRoom,
-  RoomAudioRenderer,
-  VideoConference,
-} from "@livekit/components-react";
+import { LiveKitRoom, VideoConference } from "@livekit/components-react";
 import { useEffect, useState } from "react";
 
 import { Spinner } from "@/components/spinner";
@@ -30,6 +25,7 @@ export const MediaRoom = ({
         const resp = await fetch(
           `/api/livekit?room=${roomId}&username=${title}`
         );
+
         const data = await resp.json();
         setToken(data.token);
       } catch (e) {
@@ -55,8 +51,6 @@ export const MediaRoom = ({
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
       data-lk-theme="default">
       <VideoConference />
-      <ControlBar />
-      <RoomAudioRenderer />
     </LiveKitRoom>
   );
 };

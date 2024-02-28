@@ -176,13 +176,14 @@ export const Navigation = () => {
           <Label className="text-neutral-500 dark:text-neutral-200 ml-1 text-xs">
             Boards ({boards?.length})
           </Label>
-          <ScrollArea className="h-[400px] overflow-y-auto">
+          <ScrollArea className="h-[400px]">
             {boards?.map((board) => (
               <Item
                 key={board._id}
                 label={board.title}
                 imageUrl={board.imageFullUrl}
                 href={`/board/${board._id}`}
+                isLive={board.activeRecording}
               />
             ))}
           </ScrollArea>

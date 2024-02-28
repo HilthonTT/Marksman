@@ -23,16 +23,16 @@ export async function POST(req: Request) {
 
     const event = await receiver.receive(body, authorization);
 
-    if (event.event === "room_started") {
+    if (event.event === "track_published") {
       await fetchMutation(api.boards.updateAnynomous, {
-        id: event.room?.sid as Id<"boards">,
+        id: event.room?.name as Id<"boards">,
         activeRecording: true,
       });
     }
 
-    if (event.event === "room_finished") {
+    if (event.event === "track_unpublished") {
       await fetchMutation(api.boards.updateAnynomous, {
-        id: event.room?.sid as Id<"boards">,
+        id: event.room?.name as Id<"boards">,
         activeRecording: false,
       });
     }
