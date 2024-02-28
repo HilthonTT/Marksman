@@ -25,7 +25,7 @@ export const Info = () => {
 
   return (
     <div className="flex items-center justify-center">
-      <div className="w-full max-w-5xl flex items-center justify-center p-4">
+      <div className="w-full max-w-5xl flex items-center justify-center p-4 ml-8 md:ml-0">
         <Image
           className="object-cover rounded-md"
           width={size}
@@ -47,8 +47,8 @@ export const Info = () => {
           variant="secondary"
           asChild>
           <Link href="/select-org">
-            <Recycle className="h-6 w-6 mr-2" />
-            Change Organization
+            <Recycle className="h-6 w-6 sm:mr-2" />
+            <span className="hidden sm:block">Change Organization</span>
           </Link>
         </Button>
       </div>

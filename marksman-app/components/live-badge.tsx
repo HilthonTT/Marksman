@@ -1,19 +1,18 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 interface LiveBadgeProps {
   className?: string;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
-export const LiveBadge = ({ className }: LiveBadgeProps) => {
+export const LiveBadge = ({ className, onClick }: LiveBadgeProps) => {
   return (
-    <div
-      className={cn(
-        "bg-rose-500 text-center rounded-md uppercase text-[10px] tracking-wide text-white p-0.5 px-1",
-        className
-      )}>
+    <Badge
+      onClick={onClick}
+      className="bg-emerald-500 uppercase tracking-wide text-[8px] px-1 py-0 hover:bg-emerald-400">
       Active
-    </div>
+    </Badge>
   );
 };

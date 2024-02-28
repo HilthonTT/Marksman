@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LucideIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -23,9 +23,17 @@ export const Item = ({
   imageUrl,
   isLive,
 }: ItemProps) => {
+  const router = useRouter();
   const pathname = usePathname();
 
   const active = href === pathname;
+
+  const onClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    router.push(`${href}/conference`);
+  };
 
   return (
     <Link
@@ -41,13 +49,13 @@ export const Item = ({
             alt="Image"
             className={cn(
               "object-cover rounded-full",
-              isLive && "ring-2 ring-rose-500 border border-background"
+              isLive && "ring-2 ring-emerald-500 border border-background"
             )}
             fill
           />
           {isLive && (
             <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2">
-              <LiveBadge />
+              <LiveBadge onClick={onClick} />
             </div>
           )}
         </div>

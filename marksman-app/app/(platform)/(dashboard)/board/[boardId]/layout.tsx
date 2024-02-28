@@ -18,14 +18,14 @@ const BoardLayout = ({ params, children }: BoardLayoutProps) => {
   const pathname = usePathname();
   const { organization } = useOrganization();
 
-  if (!organization) {
-    return redirect("/select-org");
-  }
-
   const board = useQuery(api.boards.getById, {
     orgId: organization?.id!,
     id: params.boardId,
   });
+
+  if (!organization) {
+    return redirect("/select-org");
+  }
 
   if (board === undefined) {
     return null;
