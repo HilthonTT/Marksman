@@ -14,10 +14,10 @@ export const UpdateList = z.object({
       required_error: "Title is required",
       invalid_type_error: "Title is required",
     })
-    .min(3, {
+    .min(1, {
       message: "Title is too short",
     })
-    .max(50, {
+    .max(100, {
       message: "Title is too long",
     }),
 });
@@ -39,7 +39,10 @@ export const CreateList = z.object({
       required_error: "Title is required",
       invalid_type_error: "Title is required",
     })
-    .min(3, {
+    .min(1, {
       message: "Title is too short.",
+    })
+    .max(100, {
+      message: "Title is too long",
     }),
 });

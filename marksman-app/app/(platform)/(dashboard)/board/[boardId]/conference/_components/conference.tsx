@@ -14,12 +14,7 @@ interface ConferenceProps {
 }
 
 export const Conference = ({ id, orgId }: ConferenceProps) => {
-  const router = useRouter();
   const board = useQuery(api.boards.getById, { id, orgId });
-
-  const onDisconnected = () => {
-    router.push(`/board/${board?._id}`);
-  };
 
   if (board === undefined) {
     return (
@@ -31,11 +26,7 @@ export const Conference = ({ id, orgId }: ConferenceProps) => {
 
   return (
     <div className="h-full">
-      <MediaRoom
-        roomId={board?._id as string}
-        title={board?.title}
-        onDisconnected={onDisconnected}
-      />
+      <MediaRoom roomId={board?._id as string} title={board?.title} />
     </div>
   );
 };
